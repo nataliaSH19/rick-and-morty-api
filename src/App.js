@@ -1,24 +1,55 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useMemo, useState, useEffect } from "react";
+import axios from "axios";
+
+import Table from "./Table";
+import "./App.css";
 
 function App() {
+  const columns = useMemo(
+    () => [
+      {
+        Header: "TV Show",
+        columns: [
+          {
+            Header: "Name",
+            accessor: "results.name",
+          },
+          {
+            Header: "Status",
+            accessor: "results.status",
+          },
+        ],
+      },
+      {
+        Header: "Details",
+        columns: [
+          {
+            Header: "Language",
+            accessor: "results.gender",
+          },
+
+          {
+            Header: "Status",
+            accessor: "results.type",
+          },
+        ],
+      },
+    ],
+    []
+  );
+
+  const [data, setData] = useState([]);
+  console.log(data);
+  useEffect(() => {
+    (async () => {
+      const result = await axios("https://rickandmortyapi.com/api/character/");
+      setData(result.data);
+    })();
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Table columns={columns} data={data} />
     </div>
   );
 }
