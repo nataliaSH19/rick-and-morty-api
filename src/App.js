@@ -8,29 +8,33 @@ function App() {
   const columns = useMemo(
     () => [
       {
-        Header: "TV Show",
+        Header: "Person",
         columns: [
           {
             Header: "Name",
-            accessor: "results.name",
+            accessor: "name",
           },
           {
-            Header: "Status",
-            accessor: "results.status",
+            Header: "Image",
+            Cell: (row) => (
+              <div>
+                <img height={100} src={"image"} />
+              </div>
+            ),
           },
         ],
       },
       {
-        Header: "Details",
+        Header: "Info",
         columns: [
           {
-            Header: "Language",
-            accessor: "results.gender",
+            Header: "Gender",
+            accessor: "gender",
           },
 
           {
             Header: "Status",
-            accessor: "results.type",
+            accessor: "status",
           },
         ],
       },
@@ -43,7 +47,7 @@ function App() {
   useEffect(() => {
     (async () => {
       const result = await axios("https://rickandmortyapi.com/api/character/");
-      setData(result.data);
+      setData(result.data.results);
     })();
   }, []);
 
